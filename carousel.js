@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const prevBtn = document.querySelector('.carousel-btn.prev');
     const nextBtn = document.querySelector('.carousel-btn.next');
     
-    // Dados dos trabalhos
     const trabalhos = [
         {
             img: "imagens/imagem3-armario-curvo.jpg",
@@ -87,7 +86,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let itemsPerPage;
     let intervalId;
     
-    // Função para calcular quantos itens por página devem ser exibidos
     function calculateItemsPerPage() {
         if (window.innerWidth < 768) {
             itemsPerPage = 1;
@@ -98,7 +96,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Criar cards de trabalho
     function createWorkCards() {
         carousel.innerHTML = '';
         
@@ -116,7 +113,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Criar indicadores
     function createIndicators() {
         indicatorsContainer.innerHTML = '';
         calculateItemsPerPage();
@@ -130,32 +126,26 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Atualizar exibição do carousel
     function updateCarousel() {
         calculateItemsPerPage();
         const pageCount = Math.ceil(trabalhos.length / itemsPerPage);
         
-        // Ajustar página atual se necessário
         if (currentPage >= pageCount) currentPage = pageCount - 1;
         if (currentPage < 0) currentPage = 0;
         
-        // Calcular deslocamento
         const offset = -currentPage * 100;
         carousel.style.transform = `translateX(${offset}%)`;
         
-        // Atualizar indicadores
         document.querySelectorAll('.indicator').forEach((indicator, index) => {
             indicator.classList.toggle('active', index === currentPage);
         });
     }
     
-    // Navegar para uma página específica
     function goToPage(page) {
         currentPage = page;
         updateCarousel();
     }
     
-    // Próxima página
     function nextPage() {
         calculateItemsPerPage();
         const pageCount = Math.ceil(trabalhos.length / itemsPerPage);
@@ -163,7 +153,6 @@ document.addEventListener('DOMContentLoaded', function() {
         updateCarousel();
     }
     
-    // Página anterior
     function prevPage() {
         calculateItemsPerPage();
         const pageCount = Math.ceil(trabalhos.length / itemsPerPage);
@@ -171,22 +160,18 @@ document.addEventListener('DOMContentLoaded', function() {
         updateCarousel();
     }
     
-    // Iniciar autoplay
     function startAutoSlide() {
         intervalId = setInterval(nextPage, 5000);
     }
     
-    // Parar autoplay
     function stopAutoSlide() {
         clearInterval(intervalId);
     }
     
-    // Inicialização
     createWorkCards();
     createIndicators();
     updateCarousel();
     
-    // Event listeners
     prevBtn.addEventListener('click', () => {
         stopAutoSlide();
         prevPage();
@@ -199,16 +184,13 @@ document.addEventListener('DOMContentLoaded', function() {
         startAutoSlide();
     });
     
-    // Pausar autoplay ao passar o mouse sobre o carousel
     carousel.addEventListener('mouseenter', stopAutoSlide);
     carousel.addEventListener('mouseleave', startAutoSlide);
     
-    // Atualizar ao redimensionar a janela
     window.addEventListener('resize', () => {
         createIndicators();
         updateCarousel();
     });
     
-    // Iniciar autoplay
     startAutoSlide();
 });
