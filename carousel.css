@@ -1,4 +1,4 @@
-/* Estilos gerais */
+
 * {
     margin: 0;
     padding: 0;
@@ -8,10 +8,8 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: #f5f8ff;
-    padding: 20px;
 }
 
-/* Estilos da seção de galeria */
 .gallery {
     padding: 5rem 0;
 }
