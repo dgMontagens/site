@@ -55,12 +55,48 @@ document.addEventListener('DOMContentLoaded', function() {
             img: "imagens/escritorio2.jpg",
             title: "escritório",
             desc: "Montagem de bancada de escritório com ar condicionado"
+        },
+        {
+            img: "imagens/armario-aereo1.jpg",
+            title: "cozinha",
+            desc: "Montagem de armário aereo para cozinha"
+        },
+        {
+            img: "imagens/armario-aereo2.jpg",
+            title: "cozinha",
+            desc: "Montagem de armário aereo para cozinha"
+        },
+        {
+            img: "imagens/roupeiro-marrom1.jpg",
+            title: "quarto",
+            desc: "Montagem de roupeiro de 6 portas com espelho"
+        },
+        {
+            img: "imagens/roupeiro-marrom2.jpg",
+            title: "quarto",
+            desc: "Montagem de roupeiro de 6 portas com espelho"
+        },
+        {
+            img: "imagens/roupeiro-marrom3.jpg",
+            title: "quarto",
+            desc: "Montagem de roupeiro de 6 portas com espelho"
         }
     ];
     
     let currentPage = 0;
-    let itemsPerPage = 3;
+    let itemsPerPage;
     let intervalId;
+    
+    // Função para calcular quantos itens por página devem ser exibidos
+    function calculateItemsPerPage() {
+        if (window.innerWidth < 768) {
+            itemsPerPage = 1;
+        } else if (window.innerWidth < 1200) {
+            itemsPerPage = 2;
+        } else {
+            itemsPerPage = 3;
+        }
+    }
     
     // Criar cards de trabalho
     function createWorkCards() {
@@ -70,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const item = document.createElement('div');
             item.className = 'carousel-item';
             item.innerHTML = `
-                <img src="${trabalho.img}?auto=format&fit=crop&w=600&h=400" alt="${trabalho.title}">
+                <img src="${trabalho.img}" alt="${trabalho.title}">
                 <div class="gallery-overlay">
                     <h3>${trabalho.title}</h3>
                     <p>${trabalho.desc}</p>
@@ -83,6 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Criar indicadores
     function createIndicators() {
         indicatorsContainer.innerHTML = '';
+        calculateItemsPerPage();
         const pageCount = Math.ceil(trabalhos.length / itemsPerPage);
         
         for (let i = 0; i < pageCount; i++) {
@@ -95,6 +132,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Atualizar exibição do carousel
     function updateCarousel() {
+        calculateItemsPerPage();
         const pageCount = Math.ceil(trabalhos.length / itemsPerPage);
         
         // Ajustar página atual se necessário
@@ -102,22 +140,13 @@ document.addEventListener('DOMContentLoaded', function() {
         if (currentPage < 0) currentPage = 0;
         
         // Calcular deslocamento
-        const offset = -currentPage * (100 / itemsPerPage);
+        const offset = -currentPage * 100;
         carousel.style.transform = `translateX(${offset}%)`;
         
         // Atualizar indicadores
         document.querySelectorAll('.indicator').forEach((indicator, index) => {
             indicator.classList.toggle('active', index === currentPage);
         });
-        
-        // Ajustar itens por página para responsividade
-        if (window.innerWidth < 992 && window.innerWidth >= 768) {
-            itemsPerPage = 2;
-        } else if (window.innerWidth < 768) {
-            itemsPerPage = 1;
-        } else {
-            itemsPerPage = 3;
-        }
     }
     
     // Navegar para uma página específica
@@ -128,6 +157,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Próxima página
     function nextPage() {
+        calculateItemsPerPage();
         const pageCount = Math.ceil(trabalhos.length / itemsPerPage);
         currentPage = (currentPage + 1) % pageCount;
         updateCarousel();
@@ -135,6 +165,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Página anterior
     function prevPage() {
+        calculateItemsPerPage();
         const pageCount = Math.ceil(trabalhos.length / itemsPerPage);
         currentPage = (currentPage - 1 + pageCount) % pageCount;
         updateCarousel();
@@ -173,7 +204,10 @@ document.addEventListener('DOMContentLoaded', function() {
     carousel.addEventListener('mouseleave', startAutoSlide);
     
     // Atualizar ao redimensionar a janela
-    window.addEventListener('resize', updateCarousel);
+    window.addEventListener('resize', () => {
+        createIndicators();
+        updateCarousel();
+    });
     
     // Iniciar autoplay
     startAutoSlide();

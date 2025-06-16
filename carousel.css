@@ -69,6 +69,7 @@ body {
 
 .carousel-item {
     flex: 0 0 calc(33.333% - 30px);
+    min-width: calc(33.333% - 30px);
     margin: 0 15px;
     background: white;
     border-radius: 12px;
@@ -163,9 +164,10 @@ body {
 }
 
 /* Responsividade */
-@media (max-width: 992px) {
+@media (max-width: 1200px) {
     .carousel-item {
         flex: 0 0 calc(50% - 30px);
+        min-width: calc(50% - 30px);
     }
 }
 
@@ -176,6 +178,7 @@ body {
     
     .carousel-item {
         flex: 0 0 calc(100% - 30px);
+        min-width: calc(100% - 30px);
     }
     
     .carousel-btn {
